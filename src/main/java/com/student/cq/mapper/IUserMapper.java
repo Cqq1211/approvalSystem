@@ -11,19 +11,19 @@ public interface IUserMapper {
 
     /**
      * 根据用户账号、密码查询用户对象
-     * @param account
+     * @param username
      * @return
      */
-    @Select("select * from user where account= #{account}")
-    User selectByAccount(String account);
+    @Select("select * from user where username= #{username}")
+    User selectByUsername(String username);
 
 
     /**
      * 更新用户积分
-     * @param account
+     * @param username
      * @param deduct
      * @return
      */
-    int updateIntegral(String account, Integer deduct);
+    int updateIntegral(String username, Integer deduct);
 
 }

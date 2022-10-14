@@ -16,7 +16,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void login(User user) throws ServiceValidationException {
-        User loginUser = userMapper.selectByAccount(user.getAccount());
+        User loginUser = userMapper.selectByUsername(user.getUsername());
         if (loginUser == null) {
             //未找到该用户
             throw new ServiceValidationException("登录失败，账号不存在，请前往注册", 401);
