@@ -12,8 +12,8 @@ import java.util.Date;
  */
 public class TokenUtils {
 
-    final static String issuer = "hong";
-    final static String secret = "123456";
+    final static String issuer = "cq";
+    final static String secret = "123";
 
     static Algorithm algorithm = Algorithm.HMAC256(secret);    //创建一个HMAC256算法对象
 
@@ -26,11 +26,11 @@ public class TokenUtils {
      */
     public static String generate(Object sign, Date issuedTime, Date expiresTime) {
         String token = JWT.create()
-                    .withIssuer(issuer)             //配置令牌创建者
-                    .withIssuedAt(issuedTime)       //配置令牌创建时间
-                    .withExpiresAt(expiresTime)     //配置令牌过期时间
-                    .withClaim("sign", sign.toString())     //配置令牌携带标识
-                    .sign(algorithm);               //完成签名，并生成token
+                .withIssuer(issuer)             //配置令牌创建者
+                .withIssuedAt(issuedTime)       //配置令牌创建时间
+                .withExpiresAt(expiresTime)     //配置令牌过期时间
+                .withClaim("sign", sign.toString())     //配置令牌携带标识
+                .sign(algorithm);               //完成签名，并生成token
 
         return token;
     }

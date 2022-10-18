@@ -1,29 +1,46 @@
 package com.student.cq.mapper;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.student.cq.entity.User;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 用户类Mapper
  */
 @Mapper
-public interface IUserMapper {
+public interface IUserMapper extends BaseMapper<User> {
 
     /**
-     * 根据用户账号、密码查询用户对象
-     * @param username
+     * 获取用户数据
      * @return
      */
-    @Select("select * from user where username= #{username}")
-    User selectByUsername(String username);
-
+    @Select("select user.id as 'id', username, mobile, department.name as 'departmentname', role.name as 'rolename' from user " +
+            "inner join department on user.department_id=department.id " +
+            "inner join role on user.role_id=role.id " +
+            "${ew.customSqlSegment}")
+    List<Map<String, Object>> selectUserJoinDetAndRol(@Param("ew") Wrapper queryWrapper);
 
     /**
-     * 更新用户积分
-     * @param username
-     * @param deduct
+     * 分页获取用户数据
      * @return
      */
-    int updateIntegral(String username, Integer deduct);
+    @Select("select user.id as 'id', username, mobile, department.name as 'departmentname', role.name as 'rolename' from user " +
+            "inner join department on user.department_id=department.id " +
+            "inner join role on user.role_id=role.id " +
+            "${ew.customSqlSegment}")
+    IPage<Map<String, Object>> selectUserJoinDetAndRolPage(Page page, @Param("ew") Wrapper queryWrapper);
+
+    @Insert("insert into user values(default,#{username},MD5(#{password}),#{departmentId},#{roleId},#{realname},#{sex}," +
+            "#{age},#{mobile},#{state},#{authority})")
+    @Options(
+            keyProperty = "id",
+            useGeneratedKeys = true
+    )
+    int insertUser(User user);
 
 }

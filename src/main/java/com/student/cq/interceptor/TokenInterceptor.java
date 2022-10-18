@@ -35,7 +35,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             throw new ServiceValidationException("Token验证未通过", 401);
         }
 
-        log.debug("Token认证通过，标识为：" + sign);
+        log.info("Token认证通过，标识为：" + sign);
         request.setAttribute("sign", sign);
         return true;
     }

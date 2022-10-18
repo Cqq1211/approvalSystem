@@ -34,7 +34,8 @@ public class IndexController extends BaseController {
     @PostMapping("login")
     public Object login(@Valid @RequestBody User user, BindingResult result) throws ValidationException {
         //密码
-        user.setPassword(SecurityUtils.md5Encrypt(user.getPassword()));
+//        user.setPassword(SecurityUtils.md5Encrypt(user.getPassword()));
+        user.setPassword((user.getPassword()));
         userService.login(user);
         JSONObject value = new JSONObject();
         Date issuedTime = new Date();
