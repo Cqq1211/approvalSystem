@@ -15,7 +15,6 @@ import javax.validation.ValidationException;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
     @ExceptionHandler({ServiceValidationException.class})
     public Object catchServiceValidationException(ServiceValidationException exception, HttpServletResponse response) {
         log.error("catchServiceValidationException捕获到异常了=====>" + exception);
@@ -33,7 +32,7 @@ public class GlobalExceptionHandler {
     public Object catchOtherException(Exception exception, HttpServletResponse response) {
         log.error("catchOtherException捕获到其它异常了=====>" + exception);
         exception.printStackTrace();
-        return getResult(response, "服务器端发生了异常", 500);
+        return getResult(response, "服务器端发生了异常，" + exception.getMessage(), 500);
     }
 
     /**
@@ -47,5 +46,6 @@ public class GlobalExceptionHandler {
         response.setStatus(state);
         return ViewUtils.view(message, null, state);
     }
+
 
 }

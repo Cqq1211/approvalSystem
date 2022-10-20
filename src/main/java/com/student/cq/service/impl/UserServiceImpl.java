@@ -43,19 +43,28 @@ public class UserServiceImpl extends ServiceImpl<IUserMapper, User> implements I
     }
 
     @Override
-    public IPage pageUserInfo(Integer pageIndex, Integer pageSize, String username) {
+    public IPage pageUserInfo(Integer pageIndex, Integer pageSize, Integer departmentId, Integer roleId, String username) {
         Page page = new Page(pageIndex, pageSize);
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.select("id", "username", "realname", "sex", "age", "mobile");
-        userQueryWrapper.gt("id", 1);
-        if (username != null && !username.equals("")) {
-            userQueryWrapper.eq("username", username);
+        userQueryWrapper.select("user.id", "username", "realname", "sex", "age", "mobile");
+        userQueryWrapper.gt("user.id", 1);
+        if (departmentId != null && departmentId != 0) {
+            userQueryWrapper.eq("department_id", departmentId);
         }
-        return pageMaps(page, userQueryWrapper);
+        if (roleId != null && roleId != 0) {
+            userQueryWrapper.eq("role_id", roleId);
+        }
+        if (username != null && !username.equals("")) {
+
+            userQueryWrapper.and(warpper -> warpper.like("username", username)
+                    .or()
+                    .like("realname", username));
+        }
+        return userMapper.selectUserJoinDetAndRolPage(page, userQueryWrapper);
     }
 
     @Override
-    public void saveUser(User user) {
+    public String saveUser(User user) {
         //1.先判断用户名是否存在
         QueryWrapper<User> queryWrapper = new QueryWrapper();
         queryWrapper.eq("username", user.getUsername())
@@ -65,17 +74,20 @@ public class UserServiceImpl extends ServiceImpl<IUserMapper, User> implements I
         }
         if (user.getId() == 0) {
             //新增
+            String defaultPassword = "123456";  //默认密码
+            user.setPassword(defaultPassword);
             if (userMapper.insertUser(user) == 0) {
                 throw new ServiceValidationException("新增失败", 402);
             }
             log.info("新增后用户的ID：" + user.getId());
+            return "新增成功，用户初始密码为：" + defaultPassword;
         } else {
             //修改
             if (!updateById(user)) {
                 throw new ServiceValidationException("修改失败，可能ID不存在", 402);
             }
+            return "修改成功";
         }
-
     }
 
     @Override

@@ -9,6 +9,7 @@ public interface IUserService extends IService<User> {
 
     /**
      * 登录
+     *
      * @param user
      */
     void login(User user) throws ValidationException;
@@ -16,22 +17,23 @@ public interface IUserService extends IService<User> {
 
     /**
      * 分页查询用户数据
+     *
      * @param pageIndex 页码
-     * @param pageSize 页大小
-     * @param username 用于查询的用户名
+     * @param pageSize  页大小
+     * @param username  用于查询的用户名
      * @return
      */
-    IPage pageUserInfo(Integer pageIndex, Integer pageSize, String username);
+    IPage pageUserInfo(Integer pageIndex, Integer pageSize, Integer departmentId, Integer roleId, String username);
 
 
     /**
      * 保存用户信息
+     *
      * @param user
      */
-    void saveUser(User user);
+    String saveUser(User user);
 
     /**
-     *
      * @param id
      */
     void removeUser(Integer id);

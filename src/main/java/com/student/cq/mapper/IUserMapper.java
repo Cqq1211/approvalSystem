@@ -29,7 +29,7 @@ public interface IUserMapper extends BaseMapper<User> {
      * 分页获取用户数据
      * @return
      */
-    @Select("select user.id as 'id', username, mobile, department.name as 'departmentname', role.name as 'rolename' from user " +
+    @Select("select user.id as 'id', username, sex,age,realname, mobile, department.name as 'departmentname', role.name as 'rolename' from user " +
             "inner join department on user.department_id=department.id " +
             "inner join role on user.role_id=role.id " +
             "${ew.customSqlSegment}")
@@ -42,5 +42,6 @@ public interface IUserMapper extends BaseMapper<User> {
             useGeneratedKeys = true
     )
     int insertUser(User user);
+
 
 }
