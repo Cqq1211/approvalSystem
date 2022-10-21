@@ -63,6 +63,8 @@ public class UserServiceImpl extends ServiceImpl<IUserMapper, User> implements I
         return userMapper.selectUserJoinDetAndRolPage(page, userQueryWrapper);
     }
 
+    static String defaultPassword = "123456";  //默认密码
+
     @Override
     public String saveUser(User user) {
         //1.先判断用户名是否存在
@@ -74,7 +76,6 @@ public class UserServiceImpl extends ServiceImpl<IUserMapper, User> implements I
         }
         if (user.getId() == 0) {
             //新增
-            String defaultPassword = "123456";  //默认密码
             user.setPassword(defaultPassword);
             if (userMapper.insertUser(user) == 0) {
                 throw new ServiceValidationException("新增失败", 402);
@@ -89,6 +90,19 @@ public class UserServiceImpl extends ServiceImpl<IUserMapper, User> implements I
             return "修改成功";
         }
     }
+
+    @Override
+    public String resetPassword(Integer id) {
+        User user = new User();
+        user.setId(id);
+        user.setPassword(defaultPassword);
+        //去执行update语句
+        if (userMapper.updatePassword(user) == 0) {
+            throw new ServiceValidationException("重置失败，可能ID不存在", 402);
+        }
+        return "重置成功，新密码为：" + defaultPassword;
+    }
+
 
     @Override
     public void removeUser(Integer id) {

@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @Data
 @Slf4j
-@AllArgsConstructor
+
 public class User implements Serializable {
 
     @NotNull(message = "ID不能为空")
@@ -29,10 +29,8 @@ public class User implements Serializable {
     private String password;
     @NotNull(message = "部门ID不能为空")
     private Integer departmentId;
-    private String departmentName;  //单独增加的
     @NotNull(message = "角色ID不能为空")
     private Integer roleId;
-    private String roleName;
     @NotBlank(message = "用户姓名不能为空")//单独增加的
     private String realname;
     private String sex;
@@ -47,7 +45,7 @@ public class User implements Serializable {
     private String authority;
 
 
-    Map map = new HashMap();
+
 
     public User() {
     }

@@ -25,8 +25,6 @@ public class Role implements Serializable {
     @NotBlank(message = "必须传递角色名称")
     private String name;
 
-    private String authority;
-
     public Role() {
     }
 

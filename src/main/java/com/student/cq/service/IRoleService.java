@@ -16,8 +16,4 @@ public interface IRoleService extends IService<Role> {
      */
     List<Role> listRole();
 
-    boolean saveRole(Role role);
-
-    boolean removeRole(Integer id);
-
 }

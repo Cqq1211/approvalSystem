@@ -5,7 +5,6 @@ import com.student.cq.utils.ViewUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ValidationException;
 
@@ -15,6 +14,7 @@ import javax.validation.ValidationException;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
     @ExceptionHandler({ServiceValidationException.class})
     public Object catchServiceValidationException(ServiceValidationException exception, HttpServletResponse response) {
         log.error("catchServiceValidationException捕获到异常了=====>" + exception);
@@ -28,12 +28,12 @@ public class GlobalExceptionHandler {
     }
 
 
-    @ExceptionHandler({Exception.class})
-    public Object catchOtherException(Exception exception, HttpServletResponse response) {
-        log.error("catchOtherException捕获到其它异常了=====>" + exception);
-        exception.printStackTrace();
-        return getResult(response, "服务器端发生了异常，" + exception.getMessage(), 500);
-    }
+//    @ExceptionHandler({Exception.class})
+//    public Object catchOtherException(Exception exception, HttpServletResponse response) {
+//        log.error("catchOtherException捕获到其它异常了=====>" + exception);
+//        exception.printStackTrace();
+//        return getResult(response, "服务器端发生了异常，" + exception.getMessage(), 500);
+//    }
 
     /**
      * 获取结果
@@ -46,6 +46,5 @@ public class GlobalExceptionHandler {
         response.setStatus(state);
         return ViewUtils.view(message, null, state);
     }
-
 
 }

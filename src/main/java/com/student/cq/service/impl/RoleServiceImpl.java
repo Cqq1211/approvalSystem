@@ -22,34 +22,4 @@ public class RoleServiceImpl extends ServiceImpl<IRoleMapper, Role> implements I
         return list(queryWrapper);
     }
 
-    @Override
-    public boolean saveRole(Role role) {
-        //判断角色名称是否已存在
-
-        if (role.getId() == 0) {
-            //执行新增
-            if (!save(role)) {
-                throw new ServiceValidationException("保存失败", 402);
-            }
-        } else {
-            //执行修改
-            if (!updateById(role)) {
-                throw new ServiceValidationException("传递的角色ID不存在，请检查", 402);
-            }
-        }
-//        if (!saveOrUpdate(role)) {
-//            throw new ServiceValidationException("保存失败", 402);
-//        }
-        return true;
-    }
-
-    @Override
-    public boolean removeRole(Integer id) {
-        if (!removeById(id)) {
-            throw new ServiceValidationException("传递的角色ID不存在，请检查", 402);
-        }
-        return false;
-    }
-
-
 }

@@ -3,6 +3,7 @@ package com.student.cq.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.student.cq.entity.User;
+
 import javax.xml.bind.ValidationException;
 
 public interface IUserService extends IService<User> {
@@ -32,6 +33,12 @@ public interface IUserService extends IService<User> {
      * @param user
      */
     String saveUser(User user);
+
+    /**
+     * 重置密码
+     * @param id    需要被重置密码的ID
+     */
+    String resetPassword(Integer id);
 
     /**
      * @param id

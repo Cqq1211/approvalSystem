@@ -35,7 +35,7 @@ public interface IUserMapper extends BaseMapper<User> {
             "${ew.customSqlSegment}")
     IPage<Map<String, Object>> selectUserJoinDetAndRolPage(Page page, @Param("ew") Wrapper queryWrapper);
 
-    @Insert("insert into user values(default,#{username},MD5(#{password}),#{departmentId},#{roleId},#{realname},#{sex}," +
+    @Insert("insert into user values(default,#{username},MD5(CONCAT(#{username},#{password})),#{departmentId},#{roleId},#{realname},#{sex}," +
             "#{age},#{mobile},#{state},#{authority})")
     @Options(
             keyProperty = "id",
@@ -43,5 +43,12 @@ public interface IUserMapper extends BaseMapper<User> {
     )
     int insertUser(User user);
 
+    /**
+     * 修改密码字段
+     * @param user
+     * @return
+     */
+    @Update("update user set password=MD5(CONCAT(username,#{password})) where id=#{id};")
+    int updatePassword(User user);
 
 }
